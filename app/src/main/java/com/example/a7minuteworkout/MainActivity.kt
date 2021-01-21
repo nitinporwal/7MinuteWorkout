@@ -1,5 +1,6 @@
 package com.example.a7minuteworkout
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.LinearLayout
@@ -12,7 +13,8 @@ class MainActivity : AppCompatActivity() {
 
         val ll_start = findViewById<LinearLayout>(R.id.llStart)
         ll_start.setOnClickListener {
-            Toast.makeText(this, "Activity started", Toast.LENGTH_SHORT).show()
+            var intent = Intent(this, ExerciseActivity::class.java)
+            startActivity(intent)
         }
     }
 }
