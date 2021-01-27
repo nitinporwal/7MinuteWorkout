@@ -87,6 +87,8 @@ class ExerciseActivity : AppCompatActivity() {
             restTimer!!.cancel()
             restProgress = 0
         }
+        var upcommingExerciseNameTv = findViewById<TextView>(R.id.tvUpcomingExerciseName)
+        upcommingExerciseNameTv.text = exerciseList!![currentExercisePosition+1].getName()
         setRestProgressBar()
     }
 
