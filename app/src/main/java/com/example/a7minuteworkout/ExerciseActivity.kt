@@ -21,6 +21,9 @@ class ExerciseActivity : AppCompatActivity() {
     private var restTimerDuration: Long = 10
     private var exerciseTimerDuration: Long = 30
 
+    private var exerciseList: ArrayList<ExerciseModel>? = null
+    private var currentExercise = -1
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +35,9 @@ class ExerciseActivity : AppCompatActivity() {
         toolbarExerciseActivity.setNavigationOnClickListener {
             onBackPressed()
         }
+
+        exerciseList = Constants.defaultExerciseList()
+
         setupRestView()
 
         var restViewLl = findViewById<LinearLayout>(R.id.llRestView)
