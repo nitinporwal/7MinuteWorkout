@@ -1,5 +1,6 @@
 package com.example.a7minuteworkout
 
+import android.media.MediaPlayer
 import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
+import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -26,6 +28,8 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var currentExercisePosition = -1
 
     private var tts: TextToSpeech? = null
+
+    private var player: MediaPlayer? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +67,11 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             tts!!.stop()
             tts!!.shutdown()
         }
+
+        if(player != null) {
+            player!!.stop()
+        }
+
         super.onDestroy()
     }
 
@@ -90,6 +99,18 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     }
 
     private fun setupRestView() {
+
+        try {
+            player = MediaPlayer.create(applicationContext, R.raw.press_start)
+            player!!.isLooping = false
+
+            player!!.start()
+        }
+        catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+
         var restViewLl = findViewById<LinearLayout>(R.id.llRestView)
         restViewLl.visibility = View.VISIBLE
         var exerciseViewLl = findViewById<LinearLayout>(R.id.llExerciseView)
