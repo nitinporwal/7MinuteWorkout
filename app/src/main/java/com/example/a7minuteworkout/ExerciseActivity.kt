@@ -1,7 +1,6 @@
 package com.example.a7minuteworkout
 
 import android.media.MediaPlayer
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -9,10 +8,12 @@ import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.View
 import android.widget.*
-import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.activity_exercise.*
 import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlinx.android.synthetic.main.item_exercise_status.view.*
 
 class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
@@ -31,15 +32,16 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private var player: MediaPlayer? = null
 
+    private var exerciseAdapter: ExerciseStatusAdapter? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_exercise)
-        var toolbarExerciseActivity = findViewById<Toolbar>(R.id.toolbar_exercise_activity)
-        setSupportActionBar(toolbarExerciseActivity)
+        setSupportActionBar(toolbar_exercise_activity)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        toolbarExerciseActivity.setNavigationOnClickListener {
+        toolbar_exercise_activity.setNavigationOnClickListener {
             onBackPressed()
         }
 
@@ -48,9 +50,9 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         exerciseList = Constants.defaultExerciseList()
 
         setupRestView()
+        llRestView.visibility = View.VISIBLE
 
-        var restViewLl = findViewById<LinearLayout>(R.id.llRestView)
-        restViewLl.visibility = View.VISIBLE
+        setupExerciseStatusRecyclerView()
     }
 
     override fun onDestroy() {
@@ -76,23 +78,19 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     }
 
     private fun setRestProgressBar() {
-        var restProgressBar = findViewById<ProgressBar>(R.id.restProgressBar)
         restProgressBar.progress = restProgress
 
         restTimer = object : CountDownTimer(restTimerDuration * 1000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 restProgress++
                 restProgressBar.progress = restTimerDuration.toInt()-restProgress
-                var timer_tv = findViewById<TextView>(R.id.tvRestTimer)
-                timer_tv.text = (restTimerDuration.toInt()-restProgress).toString()
+                tvRestTimer.text = (restTimerDuration.toInt()-restProgress).toString()
             }
 
             override fun onFinish() {
                 currentExercisePosition++
-                var restViewLl = findViewById<LinearLayout>(R.id.llRestView)
-                restViewLl.visibility = View.GONE
-                var exerciseViewLl = findViewById<LinearLayout>(R.id.llExerciseView)
-                exerciseViewLl.visibility = View.VISIBLE
+                llRestView.visibility = View.GONE
+                llExerciseView.visibility = View.VISIBLE
                 setupExerciseView()
             }
         }.start()
@@ -111,30 +109,25 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }
 
 
-        var restViewLl = findViewById<LinearLayout>(R.id.llRestView)
-        restViewLl.visibility = View.VISIBLE
-        var exerciseViewLl = findViewById<LinearLayout>(R.id.llExerciseView)
-        exerciseViewLl.visibility = View.GONE
+        llRestView.visibility = View.VISIBLE
+        llExerciseView.visibility = View.GONE
 
         if(restTimer != null) {
             restTimer!!.cancel()
             restProgress = 0
         }
-        var upcommingExerciseNameTv = findViewById<TextView>(R.id.tvUpcomingExerciseName)
-        upcommingExerciseNameTv.text = exerciseList!![currentExercisePosition+1].getName()
+        tvUpcomingExerciseName.text = exerciseList!![currentExercisePosition+1].getName()
         setRestProgressBar()
     }
 
     private fun setExerciseProgressBar() {
-        var exerciseProgressBar = findViewById<ProgressBar>(R.id.exerciseProgressBar)
         exerciseProgressBar.progress = exerciseProgress
 
         exerciseTimer = object : CountDownTimer(exerciseTimerDuration * 1000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 exerciseProgress++
                 exerciseProgressBar.progress = exerciseTimerDuration.toInt()-exerciseProgress
-                var timer_tv = findViewById<TextView>(R.id.tvExerciseTimer)
-                timer_tv.text = (exerciseTimerDuration.toInt()-exerciseProgress).toString()
+                tvExerciseTimer.text = (exerciseTimerDuration.toInt()-exerciseProgress).toString()
             }
 
             override fun onFinish() {
@@ -155,11 +148,9 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }
         setExerciseProgressBar()
 
-        var imageIv = findViewById<ImageView>(R.id.ivImage)
-        imageIv.setImageResource(exerciseList!![currentExercisePosition].getImage())
+        ivImage.setImageResource(exerciseList!![currentExercisePosition].getImage())
 
-        var exerciseNameTv = findViewById<TextView>(R.id.tvExerciseName)
-        exerciseNameTv.text = exerciseList!![currentExercisePosition].getName()
+        tvExerciseName.text = exerciseList!![currentExercisePosition].getName()
 
         speakOut(exerciseList!![currentExercisePosition].getName())
     }
@@ -180,5 +171,11 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private fun speakOut(text: String) {
         tts!!.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
+    }
+
+    private fun setupExerciseStatusRecyclerView() {
+        rvExerciseStatus.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        var exerciseAdapter = ExerciseStatusAdapter(exerciseList!!, this)
+        rvExerciseStatus.adapter = exerciseAdapter
     }
 }
