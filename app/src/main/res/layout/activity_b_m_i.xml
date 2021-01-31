@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="?android:actionBarSize"
         android:background="#FFFFFF" />
-    
+
     <LinearLayout
         android:id="@+id/llUnitsView"
         android:layout_width="match_parent"
@@ -20,12 +20,12 @@
         android:layout_below="@+id/toolbar_bmi_activity"
         android:orientation="vertical"
         android:padding="10dp">
-        
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilMetricUnitWeight"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/tilMetricUnitWeight"-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etMetricUnitWeight"
@@ -35,13 +35,13 @@
                 android:inputType="numberDecimal"
                 android:textSize="16sp" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilMetricUnitHeight"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/tilMetricUnitHeight"-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etMetricUnitHeight"
@@ -51,7 +51,7 @@
                 android:inputType="numberDecimal"
                 android:textSize="16sp" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
 
         <LinearLayout
             android:id="@+id/llDisplayBMIResult"
@@ -69,8 +69,8 @@
                 android:gravity="center"
                 android:text="YOUR BMI"
                 android:textAllCaps="true"
-                android:visibility="invisible"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/tvBMIValue"
@@ -106,13 +106,12 @@
             android:id="@+id/btnCalculateUnits"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
             android:layout_gravity="bottom"
-            android:text="CALCULATOR"
-            android:textSize="18sp"
-            android:textColor="@color/white"
+            android:layout_marginTop="35dp"
             android:background="@color/colorAccent"
-            />
+            android:text="CALCULATOR"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
     </LinearLayout>
 </RelativeLayout>
