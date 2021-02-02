@@ -9,6 +9,12 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 
 class BMIActivity : AppCompatActivity() {
+
+    val METRIC_UNITS_VIEW = "METRIC_UNIT_VIEW"
+    val US_UNITS_VIEW = "US_UNITS_VIEW"
+
+    var currentVisibleView: String = METRIC_UNITS_VIEW
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_b_m_i)
@@ -38,6 +44,49 @@ class BMIActivity : AppCompatActivity() {
                 Toast.makeText(this@BMIActivity, "Please enter valid values", Toast.LENGTH_SHORT).show()
             }
         }
+
+        makeVisibleMetricUnitView()
+        rgUnits.setOnCheckedChangeListener { group, checkedId ->
+            if(checkedId == R.id.rbMetricUnits) {
+                makeVisibleMetricUnitView()
+            }
+            else {
+                makeVisibleUsUnitView()
+            }
+        }
+    }
+
+    private fun makeVisibleMetricUnitView() {
+
+        currentVisibleView = METRIC_UNITS_VIEW
+
+        etMetricUnitHeight.visibility = View.VISIBLE
+        etMetricUnitWeight.visibility = View.VISIBLE
+
+        etMetricUnitWeight.text!!.clear()
+        etMetricUnitHeight.text!!.clear()
+
+        llUsUnitsHeight.visibility = View.GONE
+        etUSUnitWeight.visibility = View.GONE
+
+        llDisplayBMIResult.visibility = View.INVISIBLE
+    }
+
+    private fun makeVisibleUsUnitView() {
+
+        currentVisibleView = US_UNITS_VIEW
+
+        etMetricUnitHeight.visibility = View.GONE
+        etMetricUnitWeight.visibility = View.GONE
+
+        etUSUnitWeight.text!!.clear()
+        etUSUnitHeightFeet.text!!.clear()
+        etUSUnitHeightInch.text!!.clear()
+
+        llUsUnitsHeight.visibility = View.VISIBLE
+        etUSUnitWeight.visibility = View.VISIBLE
+
+        llDisplayBMIResult.visibility = View.INVISIBLE
 
     }
 
@@ -79,10 +128,12 @@ class BMIActivity : AppCompatActivity() {
             bmiDescription = "OMG! You are in a very dangerous condition! Act now!"
         }
 
-        tvBMIDescription.visibility = View.VISIBLE
-        tvBMIType.visibility = View.VISIBLE
-        tvBMIValue.visibility = View.VISIBLE
-        tvYourBMI.visibility = View.VISIBLE
+//        tvBMIDescription.visibility = View.VISIBLE
+//        tvBMIType.visibility = View.VISIBLE
+//        tvBMIValue.visibility = View.VISIBLE
+//        tvYourBMI.visibility = View.VISIBLE
+
+        llDisplayBMIResult.visibility = View.VISIBLE
 
         val bmiValue = BigDecimal(bmi.toDouble()).setScale(2, RoundingMode.HALF_EVEN).toString()
 
