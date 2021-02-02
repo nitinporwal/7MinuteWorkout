@@ -19,5 +19,10 @@ class MainActivity : AppCompatActivity() {
             var intent = Intent(this, BMIActivity::class.java)
             startActivity(intent)
         }
+
+        llHistory.setOnClickListener {
+            var intent = Intent(this, HistoryActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
