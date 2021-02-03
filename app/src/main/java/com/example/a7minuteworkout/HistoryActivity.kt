@@ -2,6 +2,7 @@ package com.example.a7minuteworkout
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import kotlinx.android.synthetic.main.activity_history.*
 
 class HistoryActivity : AppCompatActivity() {
@@ -20,6 +21,23 @@ class HistoryActivity : AppCompatActivity() {
 
         toolbar_history_activity.setNavigationOnClickListener {
             onBackPressed()
+        }
+
+        getAllCompletedDates()
+
+    }
+
+    private fun getAllCompletedDates() {
+        val dbHelper = SqliteOpenHelper(this, null)
+        val allCompletedDatesList = dbHelper.getAllCompletedDatesList()
+
+        if(allCompletedDatesList.size > 0) {
+            for(i in allCompletedDatesList) {
+                Log.i("DATESALLDATES", "" + i)
+            }
+        }
+        else {
+
         }
     }
 }

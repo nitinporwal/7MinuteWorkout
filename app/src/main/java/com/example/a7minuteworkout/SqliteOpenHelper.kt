@@ -2,6 +2,7 @@ package com.example.a7minuteworkout
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
@@ -32,5 +33,16 @@ class SqliteOpenHelper(context: Context, factory: SQLiteDatabase.CursorFactory?)
         db.close()
     }
 
-
+    fun getAllCompletedDatesList() : ArrayList<String> {
+        var list = ArrayList<String>()
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM $TABLE_HISTORY", null)
+        while(cursor.moveToNext()) {
+            val dateValue = cursor.getString(cursor.getColumnIndex(COLUMN_COMPLETED_DATE))
+            list.add(dateValue)
+        }
+        cursor.close()
+        db.close()
+        return list
+    }
 }
