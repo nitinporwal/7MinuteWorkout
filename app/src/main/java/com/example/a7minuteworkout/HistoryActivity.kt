@@ -3,6 +3,8 @@ package com.example.a7minuteworkout
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_history.*
 
 class HistoryActivity : AppCompatActivity() {
@@ -32,11 +34,17 @@ class HistoryActivity : AppCompatActivity() {
         val allCompletedDatesList = dbHelper.getAllCompletedDatesList()
 
         if(allCompletedDatesList.size > 0) {
-            for(i in allCompletedDatesList) {
-                Log.i("DATESALLDATES", "" + i)
-            }
+            tvHistory.visibility = View.VISIBLE
+            rvHistory.visibility = View.VISIBLE
+            tvNoDataAvailable.visibility = View.GONE
+            rvHistory.layoutManager = LinearLayoutManager(this)
+            val historyAdapter = HistoryAdapter(this, allCompletedDatesList)
+            rvHistory.adapter = historyAdapter
         }
         else {
+            tvHistory.visibility = View.GONE
+            rvHistory.visibility = View.GONE
+            tvNoDataAvailable.visibility = View.VISIBLE
 
         }
     }
