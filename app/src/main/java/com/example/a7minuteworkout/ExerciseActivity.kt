@@ -9,7 +9,10 @@ import android.os.CountDownTimer
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_exercise.*
 import kotlinx.android.synthetic.main.dialog_custom_back_confirmation.*
@@ -54,6 +57,11 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         setupRestView()
         llRestView.visibility = View.VISIBLE
+
+        val window: Window = this@ExerciseActivity.window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.statusBarColor = ContextCompat.getColor(this@ExerciseActivity, R.color.colorAccent)
 
         setupExerciseStatusRecyclerView()
     }

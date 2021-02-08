@@ -2,11 +2,15 @@ package com.example.a7minuteworkout
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_b_m_i.*
 import java.math.BigDecimal
 import java.math.RoundingMode
+import android.view.Window;
+import android.view.WindowManager
+import androidx.core.content.ContextCompat
 
 class BMIActivity : AppCompatActivity() {
 
@@ -26,6 +30,10 @@ class BMIActivity : AppCompatActivity() {
             actionbar.setDisplayHomeAsUpEnabled(true)
             actionbar.title = "CALCULATE BMI"
         }
+        val window: Window = this@BMIActivity.window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.statusBarColor = ContextCompat.getColor(this@BMIActivity, R.color.colorAccent)
 
         toolbar_bmi_activity.setNavigationOnClickListener {
             onBackPressed()
@@ -47,20 +55,18 @@ class BMIActivity : AppCompatActivity() {
             }
             else {
                 if(validateUSUnits()) {
-                    val heightValueFeet: String = etMetricUnitHeight.text.toString()
+                    val heightValueFeet: String = etUSUnitHeightFeet.text.toString()
                     val heightValueInch: String = etUSUnitHeightInch.text.toString()
                     val heightValue: Float = heightValueInch.toFloat() + heightValueFeet.toFloat()*12
-                    val weightValue: Float = etMetricUnitWeight.text.toString().toFloat()
+                    val weightValue: Float = etUSUnitWeight.text.toString().toFloat()
 
                     val bmi = 703 * (weightValue/ (heightValue*heightValue))
-
                     displayBMIResult(bmi)
                 }
                 else {
                     Toast.makeText(this@BMIActivity, "Please enter valid values", Toast.LENGTH_SHORT).show()
                 }
             }
-
         }
 
         makeVisibleMetricUnitView()
@@ -78,14 +84,12 @@ class BMIActivity : AppCompatActivity() {
 
         currentVisibleView = METRIC_UNITS_VIEW
 
-        etMetricUnitHeight.visibility = View.VISIBLE
-        etMetricUnitWeight.visibility = View.VISIBLE
+        llMetricUnitsView.visibility = View.VISIBLE
 
         etMetricUnitWeight.text!!.clear()
         etMetricUnitHeight.text!!.clear()
 
-        llUsUnitsHeight.visibility = View.GONE
-        etUSUnitWeight.visibility = View.GONE
+        llUsUnitsView.visibility = View.GONE
 
         llDisplayBMIResult.visibility = View.INVISIBLE
     }
@@ -94,15 +98,13 @@ class BMIActivity : AppCompatActivity() {
 
         currentVisibleView = US_UNITS_VIEW
 
-        etMetricUnitHeight.visibility = View.GONE
-        etMetricUnitWeight.visibility = View.GONE
+        llMetricUnitsView.visibility = View.GONE
 
         etUSUnitWeight.text!!.clear()
         etUSUnitHeightFeet.text!!.clear()
         etUSUnitHeightInch.text!!.clear()
 
-        llUsUnitsHeight.visibility = View.VISIBLE
-        etUSUnitWeight.visibility = View.VISIBLE
+        llUsUnitsView.visibility = View.VISIBLE
 
         llDisplayBMIResult.visibility = View.INVISIBLE
 

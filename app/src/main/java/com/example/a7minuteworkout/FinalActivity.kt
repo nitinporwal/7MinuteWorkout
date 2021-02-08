@@ -3,6 +3,9 @@ package com.example.a7minuteworkout
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Window
+import android.view.WindowManager
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_final.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -26,6 +29,10 @@ class FinalActivity : AppCompatActivity() {
             finish()
         }
 
+        val window: Window = this@FinalActivity.window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.statusBarColor = ContextCompat.getColor(this@FinalActivity, R.color.colorAccent)
         addDateToDatabase()
     }
 
